@@ -12,7 +12,7 @@ public class ReverseInteger {
 	}
 	
 	public int reverse(int x) {
-		int result = 0;
+		long result = 0; // define as long type , consider overflow scenario
 		
 		while(x!=0){
 			result = result * 10 + x%10;
@@ -22,6 +22,6 @@ public class ReverseInteger {
 			}
 		}
 		
-		return result;
+		return (int)result; // cast to int type
 	}
 }
