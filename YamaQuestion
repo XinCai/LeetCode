@@ -1,0 +1,6 @@
+Automata Amazon
+Programming Language is Java, JDK used is 1.8
+
+Amazon wants to label its products with tags, which are strings of alphanumeric characters. Each product is associated with a sequence of tags. Edward, an employee in the compan, has been assigned the task of labelling the products. He has been given a sequence of all tags that could be associated with any product, as well as a sequence of all desired tags for the product that he is labeling. His task is to find the 0-based start and end indices of the shortest continuous subsequence containing all the desired tags for the product, in any order. if more than one minimum continuous subsequence contains all the desired tags, then output the one with smaller start index. 
+
+
