@@ -1,0 +1,7 @@
+
+import java.util.List;
+
+public class Vertex<T> {
+    T value;
+    List<Vertex<T>> vertices;
+}
