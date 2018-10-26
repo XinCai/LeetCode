@@ -1,0 +1,73 @@
+package DFS;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+
+public class DFS {
+
+    public void dfs(Vertex startNode, HashSet<Vertex> visited){
+        visited.add(startNode);
+        System.out.println("Visiting " + startNode.name);
+        for (Vertex current : startNode.adjList) {
+            if (!visited.contains(current)){
+             dfs(current,visited);
+            }
+        }
+    }
+
+    /**
+     *   Graph :
+     *
+     *   A - B - D - E
+     *   \
+     *    C
+     *
+     *   DFS should output A B D E C
+     *
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        Vertex vertexA = new Vertex("A");
+        Vertex vertexB = new Vertex("B");
+        Vertex vertexC = new Vertex("C");
+        Vertex vertexD = new Vertex("D");
+        Vertex vertexE = new Vertex("E");
+
+        LinkedList<Vertex> adjListA= new LinkedList<Vertex>();
+        adjListA.add(vertexB);
+        adjListA.add(vertexC);
+        vertexA.adjList = adjListA;
+
+        LinkedList<Vertex> adjListB= new LinkedList<Vertex>();
+        adjListB.add(vertexA);
+        adjListB.add(vertexD);
+        vertexB.adjList = adjListB;
+
+        LinkedList<Vertex> adjListC= new LinkedList<Vertex>();
+        adjListC.add(vertexA);
+        vertexC.adjList = adjListC;
+
+        LinkedList<Vertex> adjListD= new LinkedList<Vertex>();
+        adjListD.add(vertexB);
+        adjListD.add(vertexE);
+        vertexD.adjList = adjListD;
+
+        LinkedList<Vertex> adjListE= new LinkedList<Vertex>();
+        adjListE.add(vertexD);
+        vertexE.adjList = adjListE;
+
+        DFS dfs = new DFS();
+        dfs.dfs(vertexA, new HashSet<>());
+
+
+        // expect output
+        /**
+         * Visiting A
+         * Visiting B
+         * Visiting D
+         * Visiting E
+         * Visiting C
+         */
+    }
+}
