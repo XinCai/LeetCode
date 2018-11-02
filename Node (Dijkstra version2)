@@ -1,0 +1,43 @@
+package Dijkstra;
+
+import java.util.List;
+
+public class Node {
+
+    public int getWeightFromSource() {
+        return weightFromSource;
+    }
+
+    public void setWeightFromSource(int weightFromSource) {
+        this.weightFromSource = weightFromSource;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Node> getNeighbours() {
+        return neighbours;
+    }
+
+    public void setNeighbours(List<Node> neighbours) {
+        this.neighbours = neighbours;
+    }
+    // default value, set it Max value , will be updated depends on start node , and edge weight
+    private int weightFromSource = Integer.MAX_VALUE;
+    private String name;
+    private List<Node> neighbours;
+
+    public Node(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Node:"+ this.name;
+    }
+}
