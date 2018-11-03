@@ -1,0 +1,13 @@
+package graph;
+
+import java.util.List;
+
+public class Node {
+
+    String name;
+    List<Edge> edges;
+
+    public Node(String name) {
+        this.name = name;
+    }
+}
