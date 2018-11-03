@@ -1,0 +1,23 @@
+package graph;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class Graph {
+    public static void main(String[] args) {
+
+        HashMap<Node, List<Edge>> graph = new HashMap<>();
+
+        Node A = new Node("A");
+        Node B = new Node("B");
+
+        List<Edge> A_edges = new ArrayList<>();
+        A_edges.add(new Edge(5,B));
+        A.edges = A_edges;
+
+        graph.put(A, A_edges);
+
+
+    }
+}
