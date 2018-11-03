@@ -1,0 +1,13 @@
+package graph;
+
+public class Edge {
+    int weight;
+
+    public Edge(int weight, Node destination) {
+        this.weight = weight;
+        this.destination = destination;
+    }
+
+    Node destination;
+
+}
