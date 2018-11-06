@@ -116,6 +116,7 @@ public class Dijkstra {
 
     public void dijkstra(Node startNode, HashMap<Node, List<Edge>> graph){
 
+        // use priority queue
         Comparator<Node> comparator = new Comparator<Node>() {
             @Override
             public int compare(Node o1, Node o2) {
@@ -126,8 +127,11 @@ public class Dijkstra {
         HashSet<Node> visited = new HashSet<Node>();
         Queue<Node> queue = new PriorityQueue<Node>(comparator);
         HashMap<Node,Integer> total_cost = new HashMap<>();
-        total_cost.put(startNode,0);
-        // init total_cost table
+
+        startNode.weightFromSource = 0; // set up original weight from source node
+        total_cost.put(startNode,0); // add into total cost table
+
+        // init total_cost table, for each node
         for (Node node : graph.keySet()) {
             if (node != startNode){
                 total_cost.put(node,node.weightFromSource);
@@ -135,8 +139,6 @@ public class Dijkstra {
         }
 
         HashMap<Node,Node> parent = new HashMap<>();
-
-        startNode.weightFromSource = 0; // set up original weight from source node
         queue.offer(startNode);
 
         while (!queue.isEmpty()){
@@ -147,13 +149,13 @@ public class Dijkstra {
 
             for (int i = 0; i < current.edges.size(); i++) {
                 Node temp = current.edges.get(i).destination;
-                temp.weightFromSource = current.edges.get(i).weight;
+                temp.weightFromSource = current.edges.get(i).weight; // update node weight
                 neighbours.add(temp);
             }
 
             for (Node neighbour: neighbours) {
                 if (!visited.contains(neighbour)) {
-                    int new_cost = cost + neighbour.weightFromSource;
+                    int new_cost = cost + neighbour.weightFromSource; // key point
                     if (total_cost.get(neighbour) > new_cost) {
                         total_cost.put(neighbour, new_cost);
                         parent.put(neighbour,current); // what is key ,what is value ??
