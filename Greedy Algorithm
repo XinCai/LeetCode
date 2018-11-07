@@ -1,0 +1,129 @@
+package GreedyAlgorithm;
+
+import java.util.*;
+
+public class Greedy {
+    /**
+     *
+     *  Greedy Algorithm
+     *  思想：
+     *  1） 适用于 组合优化 问题
+     *  2） 求解过程是多步 判断过程，最终的判断序列 对应于问题的最优解
+     *  3） 依据某种 短视的 贪心选择性质 判断， 性质好坏 决定算法的成败
+     *  4） 贪心算法必须进行正确性 证明
+     *  5） 证明 贪心算法的 不正确技巧， 通过 举反例
+     *
+     *
+     * 题目：
+     *  给一个 开始 结束 时间 数组， 找出 最多的 并且 没有冲突 的组合
+     *  i       | A  B  C  D  E  F  G  H  I  J
+     *  start   | 1  3  0  5  3  5  6  8  8  2
+     *  finish  | 4  5  6  7  8  9 10 11 12 13
+     *
+     * 算法思想：
+     *  根据 结束时间 finish 进行排序， 最开始的第一个结点 加入到 结果集合内，  然后 loop 遍历 其余的结点， 条件 是 开始时间 要小于 之前结点的结束时间。
+     *
+     * 结果
+     * result:
+     *  i       | A   D   H
+     *  start   | 1   5   8
+     *  finish  | 4   7  11
+     *
+     *
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        HashMap<String, List<Integer>> greedy = new HashMap<>();
+
+        List<Integer> A_timeDuration = new LinkedList<>();
+        A_timeDuration.add(1);
+        A_timeDuration.add(4);
+
+        greedy.put("Activity_A", A_timeDuration);
+
+        List<Integer> B_timeDuration = new LinkedList<>();
+        B_timeDuration.add(3);
+        B_timeDuration.add(5);
+        greedy.put("Activity_B", B_timeDuration);
+
+        List<Integer> C_timeDuration = new LinkedList<>();
+        C_timeDuration.add(0);
+        C_timeDuration.add(6);
+        greedy.put("Activity_C", C_timeDuration);
+
+        List<Integer> D_timeDuration = new LinkedList<>();
+        D_timeDuration.add(5);
+        D_timeDuration.add(7);
+        greedy.put("Acitivity_D",D_timeDuration);
+
+        List<Integer> E_timeDuration = new LinkedList<>();
+        E_timeDuration.add(3);
+        E_timeDuration.add(8);
+        greedy.put("Acitivity_E",E_timeDuration);
+
+        List<Integer> F_timeDuration = new LinkedList<>();
+        F_timeDuration.add(5);
+        F_timeDuration.add(9);
+        greedy.put("Acitivity_F",F_timeDuration);
+
+        List<Integer> G_timeDuration = new LinkedList<>();
+        G_timeDuration.add(6);
+        G_timeDuration.add(10);
+        greedy.put("Acitivity_G",G_timeDuration);
+
+        List<Integer> H_timeDuration = new LinkedList<>();
+        H_timeDuration.add(8);
+        H_timeDuration.add(11);
+        greedy.put("Acitivity_H",H_timeDuration);
+
+        List<Integer> I_timeDuration = new LinkedList<>();
+        I_timeDuration.add(8);
+        I_timeDuration.add(12);
+        greedy.put("Acitivity_I",I_timeDuration);
+
+        List<Integer> J_timeDuration = new LinkedList<>();
+        J_timeDuration.add(2);
+        J_timeDuration.add(13);
+        greedy.put("Acitivity_J",J_timeDuration);
+
+        System.out.println(greedy.values());
+
+        /**
+         *  ====================算法开始 ================================
+         */
+        List<Map.Entry<String,List<Integer>>> entryList = new LinkedList<>(greedy.entrySet());
+
+        Comparator comparator = new Comparator<Map.Entry<String,List<Integer>>>() {
+            @Override
+            public int compare(Map.Entry<String, List<Integer>> o1, Map.Entry<String, List<Integer>> o2) {
+                return o1.getValue().get(1) - o2.getValue().get(1);
+            }
+        };
+
+        Collections.sort(entryList,comparator); // sort HashMap, based on finish time value
+
+        for (Map.Entry<String, List<Integer>> entry: entryList){
+            System.out.println(entry.getKey() + "start -> " + entry.getValue().get(0) + " finish ->"+ entry.getValue().get(1));
+        }
+
+        int j =0;
+        int length = entryList.size();
+        HashMap<String,List<Integer>> result = new HashMap<>();
+        result.put(entryList.get(0).getKey(), entryList.get(0).getValue());
+
+        for (int i = 1; i <length ; i++) {
+            if (entryList.get(i).getValue().get(0) > entryList.get(j).getValue().get(1)){
+                result.put(entryList.get(i).getKey(), entryList.get(i).getValue());
+                j = i;
+            }
+        }
+
+        System.out.println(result);
+
+        /**
+         *
+         * ======================算法结束=============================================
+         */
+    }
+}
