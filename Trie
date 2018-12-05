@@ -91,6 +91,5 @@ public class TrieImpl {
         trie.insert(word,  root);
         trie.insert(word2, root);
         System.out.println(trie.search("abcd",root));
-
     }
 }
