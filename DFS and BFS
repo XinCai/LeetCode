@@ -1,0 +1,109 @@
+package alogrithm;
+
+
+import java.util.*;
+
+/**
+ *
+ *
+ *   A - B - D
+ *   |   \
+ *   C    F
+ *
+ *
+ */
+class Node{
+    String value;
+    List<Node> neighbours;
+
+    public Node(String value) {
+        this.value = value;
+        neighbours = new ArrayList<>();
+    }
+
+
+}
+
+public class BFS {
+    public static void main(String[] args) {
+        //graph
+        Node A = new Node("A");
+        Node B = new Node("B");
+        Node C = new Node("C");
+        Node D = new Node("D");
+        Node F = new Node("F");
+
+        ArrayList<Node> A_neib = new ArrayList<>();
+        A_neib.add(B);
+        A_neib.add(C);
+        A.neighbours = A_neib;
+
+
+        ArrayList<Node> B_neib = new ArrayList<>();
+        B_neib.add(A);
+        B_neib.add(F);
+        B_neib.add(D);
+        B.neighbours = B_neib;
+
+        ArrayList<Node> C_neib = new ArrayList<>();
+        C_neib.add(A);
+        C.neighbours = C_neib;
+
+        ArrayList<Node> D_neib = new ArrayList<>();
+        D_neib.add(B);
+        D.neighbours = D_neib;
+
+        ArrayList<Node> F_neib = new ArrayList<>();
+        F_neib.add(B);
+        F.neighbours = F_neib;
+
+        BFS bfs = new BFS();
+       // bfs.bfsTravesal(A);
+        bfs.dfsTraversal(A);
+
+    }
+
+    public void bfsTravesal(Node startNode){
+        Queue<Node> queue = new LinkedList<>();
+        HashMap<Node, Boolean> visitedNode = new HashMap<>();
+        queue.offer(startNode);
+
+        visitedNode.put(startNode,true);
+
+        while (!queue.isEmpty()){
+            Node top = queue.poll();
+            System.out.println("BFS current node :" + top.value);
+            List<Node> neighbours = top.neighbours;
+            for (Node node : neighbours) {
+                if (!visitedNode.containsKey(node)){
+                    visitedNode.put(node, true);
+                    queue.offer(node);
+                }
+            }
+        }
+    }
+
+    public void dfsTraversal(Node startNode){
+
+        HashSet<Node> visited = new HashSet<>();
+        Stack<Node> stack = new Stack<>();
+
+        stack.add(startNode);
+        visited.add(startNode);
+
+        while (!stack.isEmpty()){
+            Node current = stack.pop();
+            System.out.println("dfs current " + current.value);
+
+            for (Node node : current.neighbours) {
+                if (!visited.contains(node)){
+                    stack.push(node);
+                    visited.add(node);
+                }
+            }
+        }
+
+    }
+
+
+}
