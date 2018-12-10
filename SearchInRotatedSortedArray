@@ -1,0 +1,124 @@
+package leetcode;
+
+public class SearchInRotatedSortedArray {
+
+    public static void main(String[] args) {
+        int[] arr = {4,5,6,7,0,1,2};
+
+        System.out.println(search1(arr, 0));
+    }
+
+    /**
+     *
+     * binary search algorithm
+     *
+     * if nums[mid] == target, then return mid
+     *
+     * nums[mid] will split array into two parts.
+     *
+     *
+     * part 1: nums[mid] > nums[start]
+     *
+     * if in part 1, check target value if in between nums[mid] and nums[start]
+     *            if yes, end = mid,
+     *            else, start = mid
+     *
+     *         start mid
+     *           |   |
+     * part 1 = {4,5,6,7,...}
+     *
+     *
+     * part 2: nums[mid] < nums[start]
+     *    if in part 2, check target if in between nums[mid] and nums[end]
+     *      if yes, start = mid,
+     *         else, end = mid,
+     *
+     *               mid
+     *                |
+     * part 2 = {...0,1,2}
+     *                  |
+     *                 end
+     *
+     * only two element need to check after , compare it with target
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int search(int[] nums, int target) {
+        int start = 0;
+        int end = nums.length - 1;
+
+        while (start + 1< end){
+            int mid = start + (end - start)/2;
+            if (nums[mid] == target){
+                return mid;
+            }
+
+            if (nums[start] < nums[mid]){
+                if (nums[start]<= target && target <= nums[mid]){
+                    end = mid;
+                }else {
+                    start = mid;
+                }
+            }else {
+                if (nums[mid] <= target && target <= nums[end]){
+                   start = mid;
+                }else {
+                    end = mid;
+                }
+            }
+        }
+
+        if (nums[start] == target){
+            return start;
+        }else if (nums[end] == target){
+            return end;
+        }
+
+        return -1;
+    }
+
+    public static int search1(int[] nums, int target) {
+        if(nums==null || nums.length < 1){
+            return -1;
+        }
+
+        int start = 0 ;
+        int end = nums.length - 1;
+
+        while(start + 1 < end) {
+            int mid = start + (end-start)/2;
+
+            if(nums[mid] == target){
+                return mid;
+            }
+
+            if(nums[mid] < nums[end]){
+                if(nums[mid] <= target && target <= nums[end]){
+                    start = mid;
+                }else{
+                    end = mid;
+                }
+            }else{
+                if(nums[start]<= target && target <= nums[mid]){
+                    end = mid;
+                }else{
+                    start = mid;
+                }
+            }
+
+        }
+
+        if(nums[start] == target){
+            return start;
+        }
+
+        if(nums[end] == target){
+            return end;
+        }
+
+        return -1;
+    }
+
+}
