@@ -1,0 +1,51 @@
+package BFS;
+
+import java.util.Arrays;
+
+public class QuickSort {
+
+    public static void main(String[] args) {
+        int[] arr = {0,2,52,1,27,13,8,12,5,2};
+        QuickSort sort = new QuickSort();
+        sort.quickSort(arr,0, arr.length-1);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    public void quickSort(int[] arr, int start, int end){
+
+        if (start < end){
+            int pivotIndex = partition(arr, start, end);
+            quickSort(arr, start, pivotIndex-1);
+            quickSort(arr,pivotIndex+1, end);
+        }
+    }
+
+    /**
+     * this works
+     * @param arr
+     * @param left
+     * @param right
+     * @return
+     */
+    private int partition(int[] arr, int left, int right){
+        int pivot = arr[right];
+
+        int partitionIndex = left; // two pointer, slow pointer from the left
+
+        int tmp = 0;
+        for (int i = left; i < right; i++) {  // fast pointer => i
+            if (arr[i] <= pivot){  //looping array, move smaller value to left hand part of array
+                tmp = arr[i];
+                arr[i] = arr[partitionIndex];
+                arr[partitionIndex] = tmp;
+                partitionIndex++;
+            }
+        }
+
+        tmp = arr[partitionIndex]; // move pivot to correct index of array.
+        arr[partitionIndex] = arr[right];
+        arr[right] = tmp;
+
+        return partitionIndex; // return partition index
+    }
+}
