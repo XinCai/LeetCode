@@ -1,0 +1,219 @@
+package WeightGraph;
+
+import java.util.*;
+
+public class UnDirectedWeightGraph {
+
+    /**
+     *
+     *  Graph with weight
+     *
+     *            1       6
+     *        B ----- D ---- F
+     *    5 / |      /|
+     *    /   |     / |
+     *   A   2|  4 /  |
+     *    \   |   /   | 3
+     *   1 \  |  /    |
+     *      \ | /     |
+     *        C ----- E
+     *            8
+     *
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        Node A = new Node("A");
+        Node B = new Node("B");
+        Node C = new Node("C");
+        Node D = new Node("D");
+        Node E = new Node("E");
+        Node F = new Node("F");
+
+        List<Node> neighbours_A = new ArrayList<>();
+        neighbours_A.add(B);
+        neighbours_A.add(C);
+        A.setNeighbours(neighbours_A);
+
+        List<Node> neighbours_B = new ArrayList<>();
+        neighbours_B.add(A);
+        neighbours_B.add(C);
+        neighbours_B.add(D);
+        B.setNeighbours(neighbours_B);
+
+        List<Node> neighbours_C = new ArrayList<>();
+        neighbours_C.add(A);
+        neighbours_C.add(B);
+        neighbours_C.add(D);
+        neighbours_C.add(E);
+        C.setNeighbours(neighbours_C);
+
+        List<Node> neighbours_D = new ArrayList<>();
+        neighbours_D.add(B);
+        neighbours_D.add(C);
+        neighbours_D.add(E);
+        neighbours_D.add(F);
+        D.setNeighbours(neighbours_D);
+
+        List<Node> neighbours_E = new ArrayList<>();
+        neighbours_E.add(C);
+        neighbours_E.add(D);
+        E.setNeighbours(neighbours_E);
+
+        List<Node> neighbours_F = new ArrayList<>();
+        neighbours_F.add(D);
+        F.setNeighbours(neighbours_F);
+
+        Set<Node> nodes = new HashSet<>();
+        nodes.add(A);
+        nodes.add(B);
+        nodes.add(C);
+        nodes.add(D);
+        nodes.add(E);
+        nodes.add(F);
+
+
+        Edge edgeAB = new Edge(A,B,5);
+        Edge edgeAC = new Edge(A,C,1);
+        Edge edgeBC = new Edge(B,C,2);
+        Edge edgeBA = new Edge(B,A,5);
+        Edge edgeBD = new Edge(B,D,1);
+        Edge edgeCA = new Edge(C,A,1);
+        Edge edgeCB = new Edge(C,B,2);
+        Edge edgeCD = new Edge(C,D,4);
+        Edge edgeCE = new Edge(C,E,8);
+        Edge edgeDB = new Edge(D,B,1);
+        Edge edgeDC = new Edge(D,C,4);
+        Edge edgeDE = new Edge(D,E,3);
+        Edge edgeDF = new Edge(D,F,6);
+        Edge edgeEC = new Edge(E,C,8);
+        Edge edgeED = new Edge(E,D,3);
+        Edge edgeFD = new Edge(F,D,6);
+
+        Set<Edge> edges = new HashSet<>();
+        edges.add(edgeAB);
+        edges.add(edgeAC);
+        edges.add(edgeBC);
+        edges.add(edgeBA);
+        edges.add(edgeBD);
+        edges.add(edgeCA);
+        edges.add(edgeCB);
+        edges.add(edgeCD);
+        edges.add(edgeCE);
+        edges.add(edgeDB);
+        edges.add(edgeDC);
+        edges.add(edgeDE);
+        edges.add(edgeDF);
+        edges.add(edgeEC);
+        edges.add(edgeED);
+        edges.add(edgeFD);
+
+        UnDirectedWeightGraph demo= new UnDirectedWeightGraph();
+
+        Graph graph = new Graph(edges,nodes);
+        demo.dijkStra(A,graph);
+
+
+//        Comparator<Node> comparator = new Comparator<Node>() {
+//            @Override
+//            public int compare(Node o1, Node o2) {
+//                return o1.getDistanceFromSource() - o2.getDistanceFromSource();
+//            }
+//        };
+//
+//        Queue<Node> priorityQueue = new PriorityQueue<>(comparator);
+//        A.setDistanceFromSource(10);
+//        priorityQueue.add(A);
+//
+//        B.setDistanceFromSource(5);
+//        priorityQueue.add(B); // from small to large
+//
+//        System.out.println(priorityQueue.poll().getName());
+
+    }
+
+    private List<HashMap<Node,Integer>> dijkStra(Node startNode, Graph graph){
+        HashMap<Node,Integer> totalCost = new HashMap<>();  // result, contains node to every other node , shortest path value
+        HashMap<Node, Node> parent = new HashMap<>(); //
+
+        Comparator<Node> comparator = new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                return o1.getDistanceFromSource() - o2.getDistanceFromSource();
+            }
+        }; // ascending order
+
+        Queue<Node> queue = new PriorityQueue<>(comparator); // priority queue
+        Set<Node> visited = new HashSet<>();
+
+        totalCost.put(startNode,0);
+        queue.add(startNode);
+
+        for (Node node : graph.getVertexs()){
+            if (node != startNode){
+                totalCost.put(node,Integer.MAX_VALUE);
+            }
+        }
+
+        while (!queue.isEmpty()){
+            Node newSmallest = queue.poll();
+
+            System.out.println(newSmallest.getName());
+
+            for (Node neighbour: newSmallest.getNeighbours()) {
+
+                if (!visited.contains(neighbour)){ // if this node not visited, then update cost from source to this node
+                    int altPath = totalCost.get(newSmallest) + distance(newSmallest, neighbour, graph);
+                    if (altPath <= totalCost.get(neighbour)){
+                        totalCost.put(neighbour, altPath);
+                        parent.put(neighbour,newSmallest);
+                        neighbour.setDistanceFromSource(altPath);
+                        queue.add(neighbour);
+                    }
+                }
+            }
+        }
+
+        ArrayList<HashMap<Node,Integer>> results = new ArrayList<>();
+        results.add(totalCost);
+        return results;
+
+//        startNode.setDistance(0); // start node should have 0 distance
+//        //A custom comparator that compares two vertex by its distance
+//
+
+//
+//        PriorityQueue<Node> priorityQueue = new PriorityQueue<>(comparator);
+//        priorityQueue.add(startNode);
+//
+//        HashSet<Node> visited = new HashSet<>();
+//        HashSet<Node> parent = new HashSet<>();
+//
+//        while(!priorityQueue.isEmpty()){
+//            Node currentNode = priorityQueue.poll(); // startNode pop out
+//            visited.add(currentNode); // start node has been visited, then add into visited set
+//
+//            Integer dist = currentNode.getDistance(); // start Node distance = 0 ;
+//            String vertexName = (String) currentNode.getName(); // start Node name "A"
+//
+//            for (int i = 0; i < currentNode.adjacentNodes.keySet().size() ; i++) {
+//                Node neighbourVertex = (Node) currentNode.adjacentNodes.get(i);
+//            }
+//
+//        }
+
+
+    }
+
+    private Integer distance(Node newSmallest, Node neighbour, Graph graph) {
+        Node start = newSmallest;
+        Node target = neighbour;
+
+        for (Edge e : graph.getEdges()) {
+            if (e.getSource() == start && e.getDestination() == target){
+                return e.getLength();
+            }
+        }
+        return Integer.MAX_VALUE;
+    }
+}

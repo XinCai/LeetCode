@@ -1,0 +1,29 @@
+package WeightGraph;
+
+import java.util.Set;
+
+public class Graph {
+    private Set<Node> vertexs;
+    private Set<Edge> edges;
+
+    public Graph(Set<Edge> edges,  Set<Node> vertexs) {
+        this.edges = edges;
+        this.vertexs = vertexs;
+    }
+
+    public Set<Node> getVertexs() {
+        return vertexs;
+    }
+
+    public void setVertexs(Set<Node> vertexs) {
+        this.vertexs = vertexs;
+    }
+
+    public Set<Edge> getEdges() {
+        return edges;
+    }
+
+    public void setEdges(Set<Edge> edges) {
+        this.edges = edges;
+    }
+}
