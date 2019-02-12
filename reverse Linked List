@@ -1,0 +1,76 @@
+    /**
+     *     *
+     *      * 1 -> 2 -> 3 -> 4 -> 5
+     *      *
+     *      * reverse linked list
+     *      *
+     *      * 5 -> 4 -> 3 -> 2 -> 1
+     *
+     * Tips : consider three nodes when reverse linked list
+     *
+     *
+     * @param head
+     * @return
+     */
+    public static Node reverseLinkedList(Node head){
+        Node prev = null; // first node
+        Node curr = head; // current node
+
+        while (curr != null){
+            Node tmpNode = curr.next; // next node
+
+            curr.next = prev; // change next point to prev one
+            prev = curr; // prev one become current one
+            curr = tmpNode; // move current point to next element
+        }
+
+        return prev;
+    }
+    
+    
+        /**
+     * reverse the number of linked list
+     *
+     * 1 -> 2 -> 3 -> 4 -> 5
+     *
+     * reverse first 3 items
+     *
+     * 3 -> 2 -> 1 -> 4 -> 5
+     *
+     * return node 3 ref
+     *
+     * @param head
+     * @param count
+     * @return
+     */
+    public static Node reversRangeLinkedList(Node head, int count){
+        Node prev = null;
+        Node curr = head;
+        int k = 0;
+
+        while ( curr != null && k < count ){
+            Node tmpNode = curr.next; // save next Node
+
+            curr.next= prev;  // reverse next pointer to
+            prev = curr;
+            curr = tmpNode;
+
+            k++;
+        }
+
+        // clear understand these important items
+        System.out.println(prev.val); // new linked list
+        System.out.println(curr.val); // old linked list
+
+        Node res = prev;
+
+        while (prev.next!=null){
+            prev = prev.next;
+        }
+
+        prev.next = curr;
+
+        return res;
+    }
+    
+    
