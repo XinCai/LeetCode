@@ -1,0 +1,41 @@
+package Leetcode;
+
+/**
+ * leetcode 283
+ */
+public class moveZeros {
+
+    public static void main(String[] args) {
+        int[] arr = {1,1,0,3,12};
+        moveZeros(arr);
+
+    }
+
+    /**
+     *  Example:
+     *
+     * Input: [0,1,0,3,12]
+     * Output: [1,3,12,0,0]
+     *
+     * Input: [1,1,0,3,12]
+     * Output: [1,1,3,12,0]
+     *
+     *
+     * You must do this in-place without making a copy of the array.
+     * Minimize the total number of operations.
+     *
+     */
+    public static void moveZeros(int[] arrs){
+        int leftPointer =0;
+        for (int i = 0; i < arrs.length; i++) {
+
+            if (arrs[i] != 0){
+                int tmp = arrs[i];
+                arrs[i] = arrs[leftPointer];
+                arrs[leftPointer] = tmp;
+                leftPointer++;
+            }
+        }
+    }
+
+}
