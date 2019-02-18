@@ -114,5 +114,53 @@ public class binarytree {
         Collections.reverse(result);  // note : reverse the list which is the post order result ss
         return result;
     }
+    
+        public static void bfs(TreeNode root){
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        HashSet<TreeNode> visitedNodes = new HashSet<TreeNode>();
+        queue.add(root);
+
+        while (!queue.isEmpty()){
+            TreeNode curr = queue.poll();
+
+            System.out.println(curr.val + " ");
+            if (!visitedNodes.contains(curr.leftchild) && curr.leftchild !=null){
+                queue.offer(curr.leftchild);
+                visitedNodes.add(curr.leftchild);
+            }
+
+            if (!visitedNodes.contains(curr.rightchild) && curr.rightchild!=null){
+                queue.offer(curr.rightchild);
+                visitedNodes.add(curr.rightchild);
+            }
+
+        }
+
+
+    }
+
+    public static void dfs(TreeNode root){
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        HashSet<TreeNode> visitedNodes = new HashSet<TreeNode>();
+        stack.push(root);
+
+        while (!stack.isEmpty()){
+            TreeNode curr = stack.pop();
+            
+            System.out.println(curr.val + " ");
+            
+            // make sure push right child first , and then left child because of using stack, first in last out
+            
+            if (!visitedNodes.contains(curr.rightchild) && curr.rightchild!=null){
+                stack.push(curr.rightchild);
+                visitedNodes.add(curr.rightchild);
+            }
+
+            if (!visitedNodes.contains(curr.leftchild) && curr.leftchild !=null){
+                stack.push(curr.leftchild);
+                visitedNodes.add(curr.leftchild);
+            }
+        }
+    }
 
 }
