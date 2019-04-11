@@ -1,61 +1,30 @@
-package Leetcode;
-
-import java.util.HashSet;
+package datastructers;
 
 public class removeDuplicate {
-
-    /**
-     *
-     * use extra space
-     *
-     * @param nums
-     * @return
-     */
     public static int removeDuplicates(int[] nums) {
-        if(nums == null || nums.length == 0) return 0;
+        // write your code here
+        // duplicate number condition nums[i] != nums[i-1]
+        // then increase pointer
 
-        HashSet<Integer> set = new HashSet<Integer>();
-
-        for (int i = 0; i < nums.length; i++) {
-            set.add(nums[i]);
-        }
-
-        return set.size();
-    }
-
-
-    /**
-     * remove in place
-     *
-     * @param nums
-     * @return
-     */
-    public static int removeDuplicates1(int[] nums){
-        if (nums.length ==0){
+        if (nums.length == 0 || nums == null){
             return 0;
         }
-        if (nums.length == 1){
-            return 1;
-        }
 
-        int res = 1; // start compare with next index value
+        int pointer = 1;
 
-        for (int j = 1; j <nums.length; j++) {
-            if (nums[j]!= nums[j-1]){
-                nums[res] = nums[j];
-                res++;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] != nums[i-1]){
+                nums[pointer] = nums[i];
+                pointer++;
             }
         }
 
-        return res;
+        return pointer;
 
     }
 
-
     public static void main(String[] args) {
-        int[] arr = {0,1,2,2,3,3,4};
-
-        System.out.println( removeDuplicates1(arr));
-
+        int[] arr= {-10,0,0,0,0,0,1,2,3};
+        removeDuplicates(arr);
     }
 }

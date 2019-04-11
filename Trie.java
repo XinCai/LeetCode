@@ -1,75 +1,73 @@
-package DataStructure;
+package datastructers;
 
 import java.util.HashMap;
 
+class TrieNode{
+    HashMap<Character,TrieNode> children;
+    Boolean isEndofWord;
+
+    TrieNode(){
+        this.children = new HashMap<Character, TrieNode>();
+        isEndofWord = false;
+    }
+}
+
 public class Trie {
     public static void main(String[] args) {
-        String s = "abc";
-        System.out.println(s.substring(1));
-        System.out.println('b'-'a');
+        String word = "abcd";
+        String word2 = "efgh";
+        String word3 = "efwg";
 
-        Character character = new Character('a');
-        System.out.println(character.charValue());
+        int x = Integer.parseInt("11");
+        System.out.println(x);
 
-        TrieNode root = new TrieNode(); // abc
-        root.endOfWord = false;
-
-        HashMap<Character,TrieNode> children = new HashMap<>();
-        children.put('a',root);
-
-        if (children.get('b') == null){
-            TrieNode secNode = new TrieNode();
-            secNode.endOfWord = false;
-            children.put('b',secNode);
-        }
-
-
-
-
-
-
-
+        TrieNode root  = new TrieNode();
+        Trie trie = new Trie();
+        trie.insert(root, "abcd");
+        trie.insert(root, "abcde");
+        trie.insert(root, "abcdef");
+        System.out.println(trie.search(root,"abcd"));
     }
 
-    char c;
-    Trie[] childeren;
-    boolean word;
 
-    public Trie() {
-        this.c = 0;
-        this.childeren = new Trie[26];
-        this.word = false;
-    }
-
-    public void add(String s){
-        if (s.isEmpty()){
-            this.word = true;
+    public void insert(TrieNode root, String word){
+        if (word.length() == 0){
             return;
         }
+        TrieNode curr = root;
 
-        char letter = s.charAt(0);
-        int index = letter - 'a';
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            TrieNode node = curr.children.get(ch);
 
-        if (this.childeren[index] == null){
-            this.childeren[index] = new Trie();
+            if (node == null){
+                node = new TrieNode();
+                curr.children.put(ch,node);
+            }
+            curr = node;
         }
 
-        this.childeren[index].add(s.substring(1));
+        curr.isEndofWord = true;
+
     }
 
-    public boolean isWord(String s){
-        if (s.isEmpty()){
-            return this.word;
+
+    public boolean search(TrieNode root, String targetWord){
+        TrieNode curr = root;
+
+        for (int i = 0; i < targetWord.length(); i++) {
+            char ch = targetWord.charAt(i);
+            TrieNode node = curr.children.get(ch);
+
+            if (node == null){
+                return false;
+            }
+
+            curr = node;
         }
 
-        char letter = s.charAt(0);
-        int index = letter - 'a';
-
-        if (this.childeren[index] == null){
-            return false;
-        }
-
-        return this.childeren[index].isWord(s.substring(1));
+        return curr.isEndofWord;
     }
-
 }
+
+

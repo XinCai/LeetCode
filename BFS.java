@@ -1,100 +1,89 @@
-package DFS;
-
+package datastructers;
 
 import java.util.*;
 
 public class BFS {
+
     /**
-     *        Graph
-     *
-     *         0
-     *        / \
-     *       1 - 2
-     *      /     \
-     *     4      3
-     *      \    /
-     *        5
-     *
-     *
+     * A - B - D - E
+     * |     \   /
+     * C      F
      */
 
     public static void main(String[] args) {
-        Node<Object> node_0 = new Node<>();
-        node_0.value = 0;
+        MyTreeNode A = new MyTreeNode("A");
+        MyTreeNode B = new MyTreeNode("B");
+        MyTreeNode C = new MyTreeNode("C");
+        MyTreeNode D = new MyTreeNode("D");
+        MyTreeNode F = new MyTreeNode("F");
+        MyTreeNode E = new MyTreeNode("E");
 
-        Node<Object> node_1 = new Node<>();
-        node_1.value = 1;
+        ArrayList<MyTreeNode> A_neib = new ArrayList();
+        A_neib.add(B);
+        A_neib.add(C);
+        A.neightbours = A_neib;
 
-        Node<Object> node_2 = new Node<>();
-        node_2.value = 2;
 
-        Node<Object> node_3 = new Node<>();
-        node_3.value = 3;
+        ArrayList<MyTreeNode> B_neib = new ArrayList();
+        B_neib.add(A);
+        B_neib.add(F);
+        B_neib.add(D);
+        B.neightbours = B_neib;
 
-        Node<Object> node_4 = new Node<>();
-        node_4.value = 4;
+        ArrayList<MyTreeNode> C_neib = new ArrayList();
+        C_neib.add(A);
+        C.neightbours = C_neib;
 
-        Node<Object> node_5 = new Node<>();
-        node_5.value = 5;
+        ArrayList<MyTreeNode> D_neib = new ArrayList();
+        D_neib.add(B);
+        D_neib.add(E);
+        D.neightbours = D_neib;
 
-        List<Node<Object>> neighbours_0 = new ArrayList<Node<Object>>();
-        neighbours_0.add(node_1);
-        neighbours_0.add(node_2);
-        node_0.neighbours = neighbours_0;
 
-        List<Node<Object>> neighbours_1 = new ArrayList<Node<Object>>();
-        neighbours_1.add(node_0);
-        neighbours_1.add(node_2);
-        neighbours_1.add(node_4);
-        node_1.neighbours = neighbours_1;
+        ArrayList<MyTreeNode> E_neib = new ArrayList();
+        E_neib.add(D);
+        E_neib.add(F);
+        E.neightbours = E_neib;
 
-        List<Node<Object>> neighbours_2 = new ArrayList<Node<Object>>();
-        neighbours_2.add(node_0);
-        neighbours_2.add(node_1);
-        neighbours_2.add(node_3);
-        node_2.neighbours = neighbours_2;
+        ArrayList<MyTreeNode> F_neib = new ArrayList();
+        F_neib.add(B);
+        F_neib.add(E);
+        F.neightbours = F_neib;
 
-        List<Node<Object>> neighbours_3 = new ArrayList<Node<Object>>();
-        neighbours_3.add(node_2);
-        neighbours_3.add(node_5);
-        node_3.neighbours = neighbours_3;
+        BFS bfs = new BFS();
+        // bfs.bfsTravesal(A);
+        List<MyTreeNode> paths = bfs.bfs(A, E);
 
-        List<Node<Object>> neighbours_4 = new ArrayList<Node<Object>>();
-        neighbours_4.add(node_1);
-        neighbours_4.add(node_5);
-        node_4.neighbours = neighbours_4;
+        System.out.println(Arrays.toString( paths.toArray()));
 
-        List<Node<Object>> neighbours_5 = new ArrayList<Node<Object>>();
-        neighbours_5.add(node_4);
-        neighbours_5.add(node_3);
-        node_5.neighbours=neighbours_5;
-
-        BFS bfsDemo = new BFS();
-        bfsDemo.BFS(node_5);
     }
 
-    private void BFS(Node startNode){
-        Queue<Node> queue = new LinkedList<>();
-        HashSet<Node> visitedNode = new HashSet<>();  // use HashSet to check visited nodes !!!
-        queue.add(startNode);
-        visitedNode.add(startNode);
+    private List bfs(MyTreeNode startNode , MyTreeNode target) {
+        Queue<MyTreeNode> queue = new LinkedList<MyTreeNode>();
+        ArrayList<MyTreeNode> paths = new ArrayList<MyTreeNode>();
+        HashSet<MyTreeNode> visitedNodes = new HashSet<MyTreeNode>();
 
-        while (!queue.isEmpty()){
-            Node top = queue.poll();
-            System.out.println("Grapah BFS visited: " + top.value );
-            List<Node> neighbours = top.neighbours;
-            for (Node current : neighbours) {
-                if (!visitedNode.contains(current)){
-                    visitedNode.add(current);
-                    queue.add(current);
+        queue.offer(startNode);
+        visitedNodes.add(startNode);
+
+        while (!queue.isEmpty()) {
+            MyTreeNode current = queue.poll();
+            if (current != target){
+                paths.add(current);
+            }
+
+            List<MyTreeNode> neighbours = current.neightbours;
+            System.out.println(current.value);
+            for (MyTreeNode node : neighbours) {
+                if (!visitedNodes.contains(node)) {
+                    visitedNodes.add(node);
+                    queue.offer(node);
                 }
             }
         }
+
+        paths.add(target);
+        return paths;
     }
-
-
-
-
-
 
 }
